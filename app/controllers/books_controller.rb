@@ -7,6 +7,10 @@ before_action :correct_user, only: [:edit, :update]
     @book_new = Book.new
     @book_comment = BookComment.new
     @book_comments = BookComment.all
+    @book = Book.find(params[:id])
+    unless ReadCount.find_by(user_id: current_user.id, book_id: @book.id)
+      current_user.read_counts.create(book_id: @book.id)
+    end
   end
 
   def index
